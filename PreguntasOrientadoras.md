@@ -33,10 +33,19 @@ características.
 > Con el set de instrucciones Thumb2 el ensamblador toma la decisión de tomar funciones de 16bits o 32bits logrando alta densidad de código y alta eficiencia (flexible y potente además de fácil de usar).
 
 -3- ¿Qué entiende por arquitectura load-store? ¿Qué tipo de instrucciones no posee este tipo de arquitectura?
-
+> Las instrucciones lógicas solo se realizan entre los registros. Este tipo de arquitectura no posee
+> instrucciones que operen con la memoria directamente. Primero es necesario cargar el dato y luego guardarlo. 
 
 -4- ¿Cómo es el mapa de memoria de la familia?
-
+> Los procesadores Cortex-M tiene una memoria de 32 bits que permiten un direccionamiento máximo de 4GB. El espacio de memoria esta unificado, lo que significa que instrucciones y datos comparten el mismo espacio de direcciones.
+> Se la divide en regiones fijas:
+> 
+> - Code &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; 0x00000000 &ensp; 0x1FFFFFFF
+> - SRAM &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp; 0x20000000 &ensp; 0x3FFFFFFF
+> - Peripherals &ensp;&ensp;                        0x40000000 &ensp; 0x5FFFFFFF
+> - RAM &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;&nbsp;  0x60000000 &ensp; 0x9FFFFFFF
+> - Devices &ensp;&ensp;&ensp; &ensp;&nbsp;         0xA0000000 &ensp; 0xDFFFFFFF
+> - System &ensp;&ensp;&ensp;&ensp; &ensp;          0xE0000000 &ensp; 0XFFFFFFFF
 
 -5- ¿Qué ventajas presenta el uso de los “shadowed pointers” del PSP y el MSP?
 
@@ -47,7 +56,8 @@ privilegiado a no privilegiado y nuevamente a privilegiado.
 
 
 -7- ¿Qué se entiende por modelo de registros ortogonal? Dé un ejemplo
-
+>Todos los registros son de propósito general y pueden ser llamados excepto el stack pointer, el link register y el program counter.
+> Por ejemplo se puede realizar una suma entre cualquiera de los registros generales (ADD R0, R1)
 
 -8- ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un
 ejemplo
@@ -58,7 +68,7 @@ ejemplo
 
 -10- Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado
 a funciones y su retorno?
-
+> PUSH y POP << falta
 
 -11- Describa la secuencia de reset del microprocesador.
 

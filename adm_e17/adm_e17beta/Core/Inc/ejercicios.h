@@ -1,8 +1,7 @@
 /*
  * ejercicios.h
- *
- *  Created on: May 18, 2022
- *      Author: Gabriel
+ *  Ejercicios de la practica en C
+ *  Su version en Assembly estan en asm_func
  */
 
 #ifndef INC_EJERCICIOS_H_

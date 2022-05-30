@@ -160,30 +160,67 @@ int main(void)
   const uint32_t Resultado = asm_sum (5, 3);
 
   uint32_t vector32Zeros[] ={9,7,5};
-  uint32_t vector32In[] ={0x00000100,0x40000000,0xAB123456};
+  uint32_t vector32In[] ={3,4,0xAB123456};
   uint32_t vector32Out[]={0,0,0};
-  uint16_t vector16In[] ={0x0100,0x4000,0xAB12};
+  //uint16_t vector16In[] ={0x0100,0x4000,0xAB12};
+  uint16_t vector16In[] ={3,4,0xAB12};
   uint16_t vector16Out[]={0,0,0};
   uint32_t escalar32 = 4;
   uint16_t escalar16 = 4;
 
-  //Ejercicio en C
+
   //Ejercicio 1
   //Realizar una función que inicialice un vector con ceros.
+  //Ejercicio en C
   zeros (vector32Zeros, (sizeof(vector32Zeros)/sizeof(vector32Zeros[0])));
+  //Ejercicio en Assembly
+  vector32Zeros[0] =8;
+  vector32Zeros[1] =16;
+  vector32Zeros[2] =32;
+  asm_zeros (vector32Zeros, (sizeof(vector32Zeros)/sizeof(vector32Zeros[0])));
+
 
   //Ejercicio 2
   //Realizar una función que realice el producto de un vector y un escalar
   //(por ejemplo, podría servir para cambiar el nivel de amplitud de una señal).
+  //Ejercicio en C
+  vector32Out[0] =0;
+  vector32Out[1] =0;
+  vector32Out[2] =0;
   productoEscalar32 (vector32In, vector32Out, (sizeof(vector32In)/sizeof(vector32In[0])), escalar32);
+  //Ejercicio en Assembly
+  vector32Out[0] =0;
+  vector32Out[1] =0;
+  vector32Out[2] =0;
+  asm_productoEscalar32 (vector32In, vector32Out, (sizeof(vector32In)/sizeof(vector32In[0])), escalar32);
+
 
   //Ejercicio 3
   //Adapte la función del ejercicio 2 para realizar operaciones sobre vectores de 16 bits
+  //Ejercicio en C
+  vector16Out[0] =0;
+  vector16Out[1] =0;
+  vector16Out[2] =0;
   productoEscalar16 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+  //Ejercicio en Assembly
+  vector16Out[0] =0;
+  vector16Out[1] =0;
+  vector16Out[2] =0;
+  asm_productoEscalar16 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+
 
   //Ejericio 4
   //Adapte la función del ejercicio 3 para saturar el resultado del producto a 12 bits
+  //Ejercicio en C
+  vector16Out[0] =0;
+  vector16Out[1] =0;
+  vector16Out[2] =0;
   productoEscalar12 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+  //Ejercicio en Assembly
+  vector16Out[0] =0;
+  vector16Out[1] =0;
+  vector16Out[2] =0;
+  asm_productoEscalar12 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
 
   /* USER CODE END 2 */
 

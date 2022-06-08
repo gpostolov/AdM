@@ -64,7 +64,7 @@ ejemplo
 
 
 -9- Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
-
+>El reset es la excepcion las alta y no puede ser enmascarada. Esta excepcion ejecuta el cogio para inicialar el nucleo inmediatamente despues del encendido.
 
 -10- Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado
 a funciones y su retorno?
@@ -115,20 +115,22 @@ de las excepciones? Dé un ejemplo
 
 ## ISA ##
 -1- ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo
-
+>Las instrucciones pueden usar un sufijo para avisarle de actualizar las banderas, >o para generar una execucion condicional sin que sea necearia guardar en un >registro la comparacion.
+>Por ejemplo en C: if(R0!=1) R1=R1+R0
+>CMP R0, #1
+>ADDNE R1, R1, R0 
 
 -2- ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
-
+>El sufijo ´s´ es el encargado de avisar que se requiere actualizar las banderas. 
 
 -3- ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un
 ejemplo con operaciones con datos de 8 bits.
-
+>Por ejemplo si se esta haciendo la suma de 2 señales, la suma no queremos que >sufra de overflow y el valor pegue la vuelta, si no que sature en el maximo valor >posible. Esto es posible con instrucciones ya preparadas con ese proposito, por >ejemplo USAR R1,8,R0
 
 -4- Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos
 de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la
 pila antes de ser modificados?
-> COMPLETAR INTERFAZ.
-> Los parametros (maximo 4) se reciben en los registros R0, R1, R2 y R3 directamente. El resultado se devuelve en R0. Todos los demas registros deben ser guardados antes de ser modificados
+> ARM usa como estandar de llamadas el ARM Architecture Procedure Call Standard (AAPCS). En este se especifica que los parametros (maximo 4) se reciben en los >registros R0, R1, R2 y R3 directamente y el resultado se devuelve en R0. Los >registros R4-R11 y R13 deben ser guardados antes de ser modificados. R12 (IP) y >R14(LR) no son necesario ser guardados.
 
 -5- ¿Qué es una instrucción SIMD? ¿En qué se aplican y que ventajas reporta su uso? Dé un
 ejemplo.

@@ -127,9 +127,12 @@ ejemplo con operaciones con datos de 8 bits.
 -4- Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos
 de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la
 pila antes de ser modificados?
-
+> COMPLETAR INTERFAZ.
+> Los parametros (maximo 4) se reciben en los registros R0, R1, R2 y R3 directamente. El resultado se devuelve en R0. Todos los demas registros deben ser guardados antes de ser modificados
 
 -5- ¿Qué es una instrucción SIMD? ¿En qué se aplican y que ventajas reporta su uso? Dé un
 ejemplo.
-
+> SIMD quiere decir "Una Instruccion de Multiples Datos" en sus siglas en ingles.
+> Teniedo en cuenta que nuestro procesador es de 32bits, permite operar 2 datos de 16bits o 4 de 8bits en una unica instruccion. Principalmente se aplica a procesamiento de señales. Su ventaja es la optimizacion (en cuestion de velocidad) ya que carga, por ejemplo en datos de 16 bits, el doble de rapido en los registros (ya que se cargan de a dos) y se realiza la mitad de iteraciones para la misma operacion si no se usara SIMD.
+> 
 

@@ -245,7 +245,7 @@ int main(void)
 	//Recibe un vector de números signados de 32 bits y los “empaqueta” en
 	//otro vector de 16 bits. Adecua los valores de entrada a la nueva precisión.
 	//Ejercicio en C
-	int32_t vectorIn_6[] = {0x00000011,0x00000022, 0xFF000011, 0xFF000022};
+	int32_t vectorIn_6[] = {0x0000FFFF,0x0080FFFF, 0x80000000, 0xFFFFFFFF};
 	int16_t vectorOut_6[] = {0x0000,0x0000, 0x0000, 0x0000};
 	pack32to16 (vectorIn_6, vectorOut_6, (sizeof(vectorIn_6)/sizeof(vectorIn_6[0])));
   #endif

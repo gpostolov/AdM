@@ -42,3 +42,79 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 		vectorOut[i]=((vectorIn[i]*escalar)>0x0FFF)?0x0FFF:(vectorIn[i]*escalar);
 	}
 }
+
+//Ejericio 5
+//Un filtro de ventana móvil de 10 valores sobre un vector de muestras.
+void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn){
+	int32_t i = 0;
+	int32_t j = 0;
+	int32_t VENTANA_MOVIL = 10; //Seria mejor un define pero lo dejo como variable.
+
+	for (i = 0; i< longitudVectorIn ; i++){
+		filt_aux = 0;
+		for (j = 0; j < 10; j++){
+			if ((i-j)>= 0){  //Para los primeros 10 valores del vectorIn que no tiene con que filtrar.
+				filt_aux = filt_aux + vectorIn[i-j];
+			}
+		}
+		vectorOut[i] = filt_aux/VENTANA_MOVIL;
+	}
+}
+
+//Ejercicio 6
+//Recibe un vector de números signados de 32 bits y los “empaqueta” en
+//otro vector de 16 bits. Adecua los valores de entrada a la nueva precisión.
+void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
+	uint32_t i = 0;
+
+	for (i = 0; i< longitud ; i++){
+		vectorOut[i]= (int16_t)vectorIn[i];
+	}
+}
+
+//Ejercicio 7
+//Recibe un vector de números signados de 32 bits y devuelve la posición
+//del máximo del vector.
+int32_t max (int32_t * vectorIn, uint32_t longitud){
+	uint32_t i = 0;
+	uint16_t max_aux = 0;
+	uint16_t max_pos = 0;
+
+	for (i = 0; i< longitud ; i++){
+		//Max
+		if( max_aux < vectorIn[i] ){
+			max_pos = i;
+		}
+	}
+	return max_pos;
+}
+
+//Ejercicio 8
+//Recibe un vector de muestras signadas de 32 bits y lo decime
+//descartando una cada N muestras.
+void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
+	uint32_t i = 0;
+	uint32_t j = 0;
+
+	for (i = 0; i< longitud ; i++){
+		//Decime
+		if( i%N ){
+			vectorOut[j] = vectorOut[i];
+			j++;
+		}
+	}
+}
+
+//Ejercicio 9
+//Recibe un vector de muestras no signadas de 16 bits e invierta su orden.
+void invertir (uint16_t * vector, uint32_t longitud){
+	uint32_t i = 0;
+	uint16_t swap_aux = 0;
+
+	for (i = 0; i< (longitud / 2); i++){
+		//Swap
+		swap_aux = vector [longitud - 1 -i];
+		vector[longitud - 1 -i] = vector[i];
+		vector[i] = swap_aux;
+	}
+}

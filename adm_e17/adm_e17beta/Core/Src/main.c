@@ -245,9 +245,15 @@ int main(void)
 	//Recibe un vector de números signados de 32 bits y los “empaqueta” en
 	//otro vector de 16 bits. Adecua los valores de entrada a la nueva precisión.
 	//Ejercicio en C
-	int32_t vectorIn_6[] = {0x0000FFFF,0x0080FFFF, 0x80000000, 0xFFFFFFFF};
+	int32_t vectorIn_6[] = {0x12345678,0x0080FFFF, 0x80000000, 0xFFFFFFFF};
 	int16_t vectorOut_6[] = {0x0000,0x0000, 0x0000, 0x0000};
 	pack32to16 (vectorIn_6, vectorOut_6, (sizeof(vectorIn_6)/sizeof(vectorIn_6[0])));
+	//Ejercicio en Assembly
+	vectorOut_6[0] = 0x0000;
+	vectorOut_6[1] = 0x0000;
+	vectorOut_6[2] = 0x0000;
+	vectorOut_6[3] = 0x0000;
+	asm_pack32to16 (vectorIn_6, vectorOut_6, (sizeof(vectorIn_6)/sizeof(vectorIn_6[0])));
   #endif
 
   #if (EJERCICIO_7 == 1)
@@ -258,6 +264,9 @@ int main(void)
 	int32_t vectorIn_7[] = {4,2,1,5,6,2,3,2,3,2,1};
 	int32_t ind_maximo_7;
 	ind_maximo_7 = max(vectorIn_7, (sizeof(vectorIn_7)/sizeof(vectorIn_7[0])));
+	//Ejercicio en Assembly
+	ind_maximo_7 = 0;
+	ind_maximo_7 = asm_max(vectorIn_7, (sizeof(vectorIn_7)/sizeof(vectorIn_7[0])));
   #endif
 
   #if (EJERCICIO_8 == 1)

@@ -13,11 +13,11 @@
 
 #include "stm32f4xx_hal.h"
 
-#define  EJERCICIO_0 0
-#define  EJERCICIO_1 0
-#define  EJERCICIO_2 0
-#define  EJERCICIO_3 0
-#define  EJERCICIO_4 0
+#define  EJERCICIO_0 1
+#define  EJERCICIO_1 1
+#define  EJERCICIO_2 1
+#define  EJERCICIO_3 1
+#define  EJERCICIO_4 1
 #define  EJERCICIO_5 1
 #define  EJERCICIO_6 1
 #define  EJERCICIO_7 1

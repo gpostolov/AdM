@@ -203,3 +203,86 @@
 		POP {R5}
 		POP {R4}
 		BX lr						 @ branch and exchange Instruction Set
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 6
+@ void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
+@ 	uint32_t i = 0;
+@
+@ 	for (i = 0; i< longitud ; i++){
+@ 		vectorOut[i]= (int16_t)(vectorIn[i]>>16);
+@ 	}
+@ }
+@
+@ Prototipo en "C":
+@   void asm_pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud);
+@ Parametros recibidos:
+@   r0: vectorIn,  puntero a vector 32btis
+@   r1: vectorOut, puntero a vector 16btis
+@   r2: longitud
+@
+@ Valor de retorno:
+@   void
+@
+.thumb_func
+	asm_pack32to16:
+		ADD R0, #2
+	    LDRH R3, [R0], #2			@ R3 =  (guardo parte alta de vectorIn)
+	    STRH R3, [R1], #2     		@ (cargo lo guardado en vectorOut)
+		SUBS R2,R2,#1				@ R1 = R1 - 1, decrement the count
+		CMP R2,#0					@ compare to 0 and set Z register
+		BNE asm_pack32to16			@ branch if compare not zero
+	    BX LR
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 7
+@ int32_t max (int32_t * vectorIn, uint32_t longitud){
+@ 	uint32_t i = 0;
+@ 	uint16_t max_aux = 0;
+@ 	uint16_t max_pos = 0;
+@
+@ 	for (i = 0; i< longitud ; i++){
+@ 		//Max
+@ 		if( max_aux < vectorIn[i] ){
+@ 			max_aux = vectorIn[i];
+@ 			max_pos = i;
+@ 		}
+@ 	}
+@ 	return max_pos;
+@ }
+@
+@ Prototipo en "C":
+@   int32_t asm_max (int32_t * vectorIn, uint32_t longitud);
+@ Parametros recibidos:
+@   r0: vectorIn,  puntero a vector 32btis
+@   r1: longitud
+@
+@ Valor de retorno:
+@   r0: indice del maximo encontrado
+@
+.thumb_func
+	asm_max:
+		PUSH {R4}
+		PUSH {R5}
+		MOV R2, #0					@ R2 max_aux
+		MOV R3, #0   				@ R3 max_pos
+		MOV R5, R1					@ R5 longitud
+	loop_asm_max:
+		@compare
+	    LDR R4, [R0], #4			@ R4 max_pos
+		CMP R2, R4
+		BGT done_comp				@ branch, GT signed >
+		MOV R2, R4
+		MOV	R3, R1
+	done_comp:
+		SUBS R1,R1,#1				@ R1 = R1 - 1, decrement the count
+		CMP R1,#0					@ compare to 0 and set Z register
+		BNE loop_asm_max			@ branch if compare not zero
+	done_max:
+	    SUB R5,R5,R3
+		MOV R0, R5
+		POP {R5}
+		POP {R4}
+	    BX LR

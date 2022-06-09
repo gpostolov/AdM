@@ -13,6 +13,17 @@
 
 #include "stm32f4xx_hal.h"
 
+#define  EJERCICIO_0 0
+#define  EJERCICIO_1 0
+#define  EJERCICIO_2 0
+#define  EJERCICIO_3 0
+#define  EJERCICIO_4 0
+#define  EJERCICIO_5 1
+#define  EJERCICIO_6 1
+#define  EJERCICIO_7 1
+#define  EJERCICIO_8 1
+#define  EJERCICIO_9 1
+
 //Ejercicio 1
 //Realizar una función que inicialice un vector con ceros.
 void zeros (uint32_t * vector, uint32_t longitud);
@@ -50,7 +61,7 @@ int32_t max (int32_t * vectorIn, uint32_t longitud);
 void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
 
 //Ejercicio 9
-//Recibe un vector de muestras no signadas de 16 bits e invierta su orden.
+//Recibe un vector de muestras no signadas de 16 bits e invierte su orden.
 void invertir (uint16_t * vector, uint32_t longitud);
 
 #endif /* INC_EJERCICIOS_H_ */

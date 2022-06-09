@@ -157,70 +157,127 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  const uint32_t Resultado = asm_sum (5, 3);
+  #if (EJERCICIO_1 == 1 || EJERCICIO_2 == 1 || EJERCICIO_3 == 1 || EJERCICIO_4 == 1)
+	//Variables ejercicios 1,2,3 y 4
+	uint32_t vector32Zeros[] ={9,7,5};
+	uint32_t vector32In[] ={3,4,0xAB123456};
+	uint32_t vector32Out[]={0,0,0};
+	//uint16_t vector16In[] ={0x0100,0x4000,0xAB12};
+	uint16_t vector16In[] ={3,4,0xAB12};
+	uint16_t vector16Out[]={0,0,0};
+	uint32_t escalar32 = 4;
+	uint16_t escalar16 = 4;
+  #endif
 
-  uint32_t vector32Zeros[] ={9,7,5};
-  uint32_t vector32In[] ={3,4,0xAB123456};
-  uint32_t vector32Out[]={0,0,0};
-  //uint16_t vector16In[] ={0x0100,0x4000,0xAB12};
-  uint16_t vector16In[] ={3,4,0xAB12};
-  uint16_t vector16Out[]={0,0,0};
-  uint32_t escalar32 = 4;
-  uint16_t escalar16 = 4;
+  #if (EJERCICIO_0 == 1)
+	const uint32_t Resultado = asm_sum (5, 3);
+  #endif
 
+  #if (EJERCICIO_1 == 1)
+	//Ejercicio 1
+	//Realizar una función que inicialice un vector con ceros.
+	//Ejercicio en C
+	zeros (vector32Zeros, (sizeof(vector32Zeros)/sizeof(vector32Zeros[0])));
+	//Ejercicio en Assembly
+	vector32Zeros[0] =8;
+	vector32Zeros[1] =16;
+	vector32Zeros[2] =32;
+	asm_zeros (vector32Zeros, (sizeof(vector32Zeros)/sizeof(vector32Zeros[0])));
+  #endif
 
-  //Ejercicio 1
-  //Realizar una función que inicialice un vector con ceros.
-  //Ejercicio en C
-  zeros (vector32Zeros, (sizeof(vector32Zeros)/sizeof(vector32Zeros[0])));
-  //Ejercicio en Assembly
-  vector32Zeros[0] =8;
-  vector32Zeros[1] =16;
-  vector32Zeros[2] =32;
-  asm_zeros (vector32Zeros, (sizeof(vector32Zeros)/sizeof(vector32Zeros[0])));
+  #if (EJERCICIO_2 == 1)
+	//Ejercicio 2
+	//Realizar una función que realice el producto de un vector y un escalar
+	//(por ejemplo, podría servir para cambiar el nivel de amplitud de una señal).
+	//Ejercicio en C
+	vector32Out[0] =0;
+	vector32Out[1] =0;
+	vector32Out[2] =0;
+	productoEscalar32 (vector32In, vector32Out, (sizeof(vector32In)/sizeof(vector32In[0])), escalar32);
+	//Ejercicio en Assembly
+	vector32Out[0] =0;
+	vector32Out[1] =0;
+	vector32Out[2] =0;
+	asm_productoEscalar32 (vector32In, vector32Out, (sizeof(vector32In)/sizeof(vector32In[0])), escalar32);
+  #endif
 
+  #if (EJERCICIO_3 == 1)
+	//Ejercicio 3
+	//Adapte la función del ejercicio 2 para realizar operaciones sobre vectores de 16 bits
+	//Ejercicio  en C
+	vector16Out[0] =0;
+	vector16Out[1] =0;
+	vector16Out[2] =0;
+	productoEscalar16 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+	//Ejercicio en Assembly
+	vector16Out[0] =0;
+	vector16Out[1] =0;
+	vector16Out[2] =0;
+	asm_productoEscalar16 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+  #endif
 
-  //Ejercicio 2
-  //Realizar una función que realice el producto de un vector y un escalar
-  //(por ejemplo, podría servir para cambiar el nivel de amplitud de una señal).
-  //Ejercicio en C
-  vector32Out[0] =0;
-  vector32Out[1] =0;
-  vector32Out[2] =0;
-  productoEscalar32 (vector32In, vector32Out, (sizeof(vector32In)/sizeof(vector32In[0])), escalar32);
-  //Ejercicio en Assembly
-  vector32Out[0] =0;
-  vector32Out[1] =0;
-  vector32Out[2] =0;
-  asm_productoEscalar32 (vector32In, vector32Out, (sizeof(vector32In)/sizeof(vector32In[0])), escalar32);
+  #if (EJERCICIO_4 == 1)
+	//Ejercicio 4
+	//Adapte la función del ejercicio 3 para saturar el resultado del producto a 12 bits
+	//Ejercicio en C
+	vector16Out[0] =0;
+	vector16Out[1] =0;
+	vector16Out[2] =0;
+	productoEscalar12 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+	//Ejercicio en Assembly
+	vector16Out[0] =0;
+	vector16Out[1] =0;
+	vector16Out[2] =0;
+	asm_productoEscalar12 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+  #endif
 
+  #if (EJERCICIO_5 == 1)
+	//Ejercicio 5
+	//Un filtro de ventana móvil de 10 valores sobre un vector de muestras.
+	//Ejercicio en C
+	uint16_t vectorIn_5[] = {1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,100,100,100,0,0,0,0,5,5,5,5};
+	uint16_t vectorOut_5[] = {0,0,0,0,0,0,0,0,0,0 , 0,0,0,0,0,0,0,0,0,0  , 0,0,0,0,0,0,0,0,0,0};
+	filtroVentana10(vectorIn_5, vectorOut_5, (sizeof(vectorIn_5)/sizeof(vectorIn_5[0])));
+  #endif
 
-  //Ejercicio 3
-  //Adapte la función del ejercicio 2 para realizar operaciones sobre vectores de 16 bits
-  //Ejercicio en C
-  vector16Out[0] =0;
-  vector16Out[1] =0;
-  vector16Out[2] =0;
-  productoEscalar16 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
-  //Ejercicio en Assembly
-  vector16Out[0] =0;
-  vector16Out[1] =0;
-  vector16Out[2] =0;
-  asm_productoEscalar16 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+  #if (EJERCICIO_6 == 1)
+	//Ejercicio 6
+	//Recibe un vector de números signados de 32 bits y los “empaqueta” en
+	//otro vector de 16 bits. Adecua los valores de entrada a la nueva precisión.
+	//Ejercicio en C
+	int32_t vectorIn_6[] = {0x00000011,0x00000022, 0xFF000011, 0xFF000022};
+	int16_t vectorOut_6[] = {0x0000,0x0000, 0x0000, 0x0000};
+	pack32to16 (vectorIn_6, vectorOut_6, (sizeof(vectorIn_6)/sizeof(vectorIn_6[0])));
+  #endif
 
+  #if (EJERCICIO_7 == 1)
+	//Ejercicio 7
+	//Recibe un vector de números signados de 32 bits y devuelve la posición
+	//del máximo del vector.
+	//Ejercicio en C
+	int32_t vectorIn_7[] = {4,2,1,5,6,2,3,2,3,2,1};
+	int32_t ind_maximo_7;
+	ind_maximo_7 = max(vectorIn_7, (sizeof(vectorIn_7)/sizeof(vectorIn_7[0])));
+  #endif
 
-  //Ejericio 4
-  //Adapte la función del ejercicio 3 para saturar el resultado del producto a 12 bits
-  //Ejercicio en C
-  vector16Out[0] =0;
-  vector16Out[1] =0;
-  vector16Out[2] =0;
-  productoEscalar12 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
-  //Ejercicio en Assembly
-  vector16Out[0] =0;
-  vector16Out[1] =0;
-  vector16Out[2] =0;
-  asm_productoEscalar12 (vector16In, vector16Out, (sizeof(vector16In)/sizeof(vector16In[0])), escalar16);
+  #if (EJERCICIO_8 == 1)
+	//Ejercicio 8
+	//Recibe un vector de muestras signadas de 32 bits y lo decime
+	//descartando una cada N muestras.
+	//Ejercicio en C
+	int32_t vectorIn_8[] = {1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,100,100,100,0,0,0,0,5,5,5,5};
+	int32_t vectorOut_8[] = {0,0,0,0,0,0,0,0,0,0 , 0,0,0,0,0,0,0,0,0,0  , 0,0,0,0,0,0,0,0,0,0};
+	downsampleM (vectorIn_8, vectorOut_8, (sizeof(vectorIn_8)/sizeof(vectorIn_8[0])), 3);
+  #endif
+
+  #if (EJERCICIO_9 == 1)
+	//Ejercicio 9
+	//Recibe un vector de muestras no signadas de 16 bits e invierte su orden.
+	//Ejercicio en C
+	uint16_t vectorIn_9[] = {4,2,1,5,6,2,3,2,3,2,1};
+	invertir (vectorIn_9, (sizeof(vectorIn_9)/sizeof(vectorIn_9[0])));
+  #endif
+
 
   /* USER CODE END 2 */
 

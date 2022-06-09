@@ -48,13 +48,18 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn){
 	int32_t i = 0;
 	int32_t j = 0;
-	int32_t VENTANA_MOVIL = 10; //Seria mejor un define pero lo dejo como variable.
+	int32_t VENTANA_MOVIL = 10;
+	uint16_t filt_aux = 0;
 
 	for (i = 0; i< longitudVectorIn ; i++){
 		filt_aux = 0;
 		for (j = 0; j < 10; j++){
+			VENTANA_MOVIL = 10;
 			if ((i-j)>= 0){  //Para los primeros 10 valores del vectorIn que no tiene con que filtrar.
 				filt_aux = filt_aux + vectorIn[i-j];
+			}else{
+				VENTANA_MOVIL = j;
+				break; //Salgo del for de la ventana
 			}
 		}
 		vectorOut[i] = filt_aux/VENTANA_MOVIL;
@@ -83,6 +88,7 @@ int32_t max (int32_t * vectorIn, uint32_t longitud){
 	for (i = 0; i< longitud ; i++){
 		//Max
 		if( max_aux < vectorIn[i] ){
+			max_aux = vectorIn[i];
 			max_pos = i;
 		}
 	}
@@ -98,15 +104,15 @@ void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, ui
 
 	for (i = 0; i< longitud ; i++){
 		//Decime
-		if( i%N ){
-			vectorOut[j] = vectorOut[i];
+		if( !(i%N) ){
+			vectorOut[j] = vectorIn[i];
 			j++;
 		}
 	}
 }
 
 //Ejercicio 9
-//Recibe un vector de muestras no signadas de 16 bits e invierta su orden.
+//Recibe un vector de muestras no signadas de 16 bits e invierte su orden.
 void invertir (uint16_t * vector, uint32_t longitud){
 	uint32_t i = 0;
 	uint16_t swap_aux = 0;

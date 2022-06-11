@@ -286,3 +286,61 @@
 		POP {R5}
 		POP {R4}
 	    BX LR
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 9
+@ void invertir (uint16_t * vector, uint32_t longitud){
+@ 	uint32_t i = 0;
+@ 	uint16_t swap_aux = 0;
+@
+@ 	for (i = 0; i< (longitud / 2); i++){
+@ 		//Swap
+@ 		swap_aux = vector [longitud - 1 -i];
+@ 		vector[longitud - 1 -i] = vector[i];
+@ 		vector[i] = swap_aux;
+@ 	}
+@ }
+@
+@ Prototipo en "C":
+@   void asm_invertir (uint16_t * vector, uint32_t longitud);
+@ Parametros recibidos:
+@   r0: vectorIn,  puntero a vector 16btis
+@   r1: longitud
+@
+@ Valor de retorno:
+@   void
+@
+.thumb_func
+@   r2: i
+@   r3: swap_aux
+@   r4: longitud / 2
+@   r5: longitud - 1
+@   r6: aux
+@   r7: longitud - 1 - i
+	asm_invertir:
+		PUSH {R4}
+		PUSH {R5}
+		PUSH {R6}
+		PUSH {R7}
+		MOV R2,#0
+		MOV R4, R1, LSR 1
+		CMP R4,#0					@ compare to 0 and set Z register
+		BEQ done_invertir			@ branch if compare zero
+		MOV R5, R1
+		SUB R5, #1
+	loop_invertir:
+	    SUB  R7, R5, R2
+	    LDRH R3, [R0, R7, LSL 1]	@ swap_aux = vector [longitud - 1 -i];
+	    LDRH R6, [R0, R2, LSL 1]	@ R6 = vector [i];
+		STRH R6, [R0, R7, LSL 1]	@ vector[longitud - 1 -i] = vector[i];
+		STRH R3, [R0, R2, LSL 1]	@ vector[i] = swap_aux;
+		ADD R2,#1					@ R2 = R2 + 1, increment the count
+		CMP R2,R4					@
+		BNE loop_invertir			@ branch if compare not equal
+	done_invertir:
+		POP {R7}
+		POP {R6}
+		POP {R5}
+		POP {R4}
+	    BX LR

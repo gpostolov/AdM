@@ -283,8 +283,10 @@ int main(void)
 	//Ejercicio 9
 	//Recibe un vector de muestras no signadas de 16 bits e invierte su orden.
 	//Ejercicio en C
-	uint16_t vectorIn_9[] = {4,2,1,5,6,2,3,2,3,2,1};
+	uint16_t vectorIn_9[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13};
 	invertir (vectorIn_9, (sizeof(vectorIn_9)/sizeof(vectorIn_9[0])));
+	//Ejercicio en Assembly
+	asm_invertir (vectorIn_9, (sizeof(vectorIn_9)/sizeof(vectorIn_9[0])));
   #endif
 
 

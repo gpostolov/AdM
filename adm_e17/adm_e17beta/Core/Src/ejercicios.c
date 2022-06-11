@@ -51,9 +51,9 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 	int32_t VENTANA_MOVIL = 10;
 	uint16_t filt_aux = 0;
 
-	for (i = 0; i< longitudVectorIn ; i++){
+	for (i = 0; i< longitudVectorIn ; i++){ //vector
 		filt_aux = 0;
-		for (j = 0; j < 10; j++){
+		for (j = 0; j < 10; j++){			//ventana
 			VENTANA_MOVIL = 10;
 			if ((i-j)>= 0){  //Para los primeros 10 valores del vectorIn que no tiene con que filtrar.
 				filt_aux = filt_aux + vectorIn[i-j];

@@ -237,7 +237,10 @@ int main(void)
 	//Ejercicio en C
 	uint16_t vectorIn_5[] = {1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,100,100,100,0,0,0,0,5,5,5,5};
 	uint16_t vectorOut_5[] = {0,0,0,0,0,0,0,0,0,0 , 0,0,0,0,0,0,0,0,0,0  , 0,0,0,0,0,0,0,0,0,0};
+	uint16_t vectorOut_5_asm[] = {0,0,0,0,0,0,0,0,0,0 , 0,0,0,0,0,0,0,0,0,0  , 0,0,0,0,0,0,0,0,0,0};
 	filtroVentana10(vectorIn_5, vectorOut_5, (sizeof(vectorIn_5)/sizeof(vectorIn_5[0])));
+	//Ejercicio en Assembly
+	asm_filtroVentana10(vectorIn_5, vectorOut_5_asm, (sizeof(vectorIn_5)/sizeof(vectorIn_5[0])));
   #endif
 
   #if (EJERCICIO_6 == 1)

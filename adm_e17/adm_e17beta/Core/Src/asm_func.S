@@ -210,6 +210,92 @@
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 5
+@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn){
+@ 	int32_t i = 0;
+@ 	int32_t j = 0;
+@ 	int32_t VENTANA_MOVIL = 10;
+@ 	uint16_t filt_aux = 0;
+@
+@ 	for (i = 0; i< longitudVectorIn ; i++){
+@ 		filt_aux = 0;
+@ 		for (j = 0; j < 10; j++){
+@ 			VENTANA_MOVIL = 10;
+@ 			if ((i-j)>= 0){  //Para los primeros 10 valores del vectorIn que no tiene con que filtrar.
+@ 				filt_aux = filt_aux + vectorIn[i-j];
+@ 			}else{
+@ 				VENTANA_MOVIL = j;
+@ 				break; //Salgo del for de la ventana
+@ 			}
+@ 		}
+@ 		vectorOut[i] = filt_aux/VENTANA_MOVIL;
+@ 	}
+@ }
+@
+@ Prototipo en "C":
+@ void asm_filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
+@ Parametros recibidos:
+@   r0: vectorIn,  puntero a vector 16btis
+@   r1: vectorOut,  puntero a vector 16btis
+@   r2: longitud
+@
+@ Valor de retorno:
+@   void
+@
+.thumb_func
+@   r4: i
+@   r5: j
+@   r6: N (VENTANA_MOVIL)
+@   r7: filt_aux
+@   r8: aux1
+@   r9: aux2
+	asm_filtroVentana10:
+		PUSH {R4}
+		PUSH {R5}
+		PUSH {R6}
+		PUSH {R7}
+		PUSH {R8}
+		PUSH {R9}
+		MOV R4, #0
+		MOV R5, #0
+		@   MOV R6, #10				@ nhf
+		@   MOV R7, #0				@ nhf
+	loop_filtroVentana10_vector:
+		MOV R7, #0
+	loop_filtroVentana10_ventana:
+		MOV R6, #10
+		SUBS R8, R4, R5
+		BLT	loop_filtroVentana10_ventana_else
+		LDRH R9, [R0,R8, LSL 1]
+		ADD R7, R9
+		B loop_filtroVentana10_ventana_else_end
+	//Ya no se usan mas R8 y R9, quedan libres
+	loop_filtroVentana10_ventana_else:
+		MOV R6, R5
+		B end_loop_filtroVentana10_ventana
+	loop_filtroVentana10_ventana_else_end:
+		ADD R5,#1					@ R5 = R5 + 1, increment the count j
+		MOV R9,#10
+		CMP R5,R9					@
+		BNE loop_filtroVentana10_ventana		@ branch if compare not equal
+	end_loop_filtroVentana10_ventana:
+		MOV R5,#0
+		UDIV R8, R7, R6
+		STRH R8, [R1,R4, LSL 1]
+		ADD R4,#1					@ R4 = R4 + 1, increment the count
+		CMP R4,R2					@
+		BNE loop_filtroVentana10_vector		@ branch if compare not equal
+	done_filtroVentana10:
+		POP {R9}
+		POP {R8}
+		POP {R7}
+		POP {R6}
+		POP {R5}
+		POP {R4}
+	    BX LR
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Ejercicio 6
 @ void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
 @ 	uint32_t i = 0;
@@ -308,7 +394,7 @@
 @ }
 @
 @ Prototipo en "C":
-@   void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
+@   void asm_downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
 @ Parametros recibidos:
 @   r0: vectorIn,  puntero a vector 32btis
 @   r1: vectorOut,  puntero a vector 32btis
@@ -411,3 +497,4 @@
 		POP {R5}
 		POP {R4}
 	    BX LR
+

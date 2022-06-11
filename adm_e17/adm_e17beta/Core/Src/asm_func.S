@@ -58,6 +58,7 @@
 @ Ejercicios de la practica implemtentados en Assembly
 @ Su version en C estan en "ejercicios.c/h"
 
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Ejercicio 1
 @ Funcion original en "C":
@@ -85,6 +86,7 @@
 		CMP R1,#0 				@ compare to 0 and set Z register
 		BNE asm_zeros			@ branch if compare not zero
 		BX lr					@ branch and exchange Instruction Set
+
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Ejercicio 2
@@ -122,6 +124,7 @@
 		POP {R4}
 		BX lr						@ branch and exchange Instruction Set
 
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Ejercicio 3
 @ Funcion original en "C":
@@ -157,6 +160,7 @@
 		POP {R5}
 		POP {R4}
 		BX lr						 @ branch and exchange Instruction Set
+
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Ejercicio 4
@@ -283,6 +287,69 @@
 	done_max:
 	    SUB R5,R5,R3
 		MOV R0, R5
+		POP {R5}
+		POP {R4}
+	    BX LR
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 8
+@ void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
+@ 	uint32_t i = 0;
+@ 	uint32_t j = 0;
+@
+@ 	for (i = 0; i< longitud ; i++){
+@ 		//Decime
+@ 		if( !(i%N) ){
+@ 			vectorOut[j] = vectorIn[i];
+@ 			j++;
+@ 		}
+@ 	}
+@ }
+@
+@ Prototipo en "C":
+@   void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
+@ Parametros recibidos:
+@   r0: vectorIn,  puntero a vector 32btis
+@   r1: vectorOut,  puntero a vector 32btis
+@   r2: longitud
+@   r3: N
+@
+@ Valor de retorno:
+@   void
+@
+.thumb_func
+@   r4: i
+@   r5: j
+@   r6: aux1
+@   r7: aux2
+	asm_downsampleM:
+		CMP R3, #0
+	    BEQ done_downsampleM		@ !division by zero
+		PUSH {R4}
+		PUSH {R5}
+		PUSH {R6}
+		PUSH {R7}
+		MOV R4, #0
+		MOV R5, #0
+	loop_downsampleM:
+    	UDIV R6,R4,R3				@ residuo
+    	MUL R7,R6,R3				@ residuo
+    	SUB R7,R4,R7				@ residuo
+    	CMP R7, #0					@ residuo == 0
+    	BNE res_distinto
+		//r6 y r7 ya no tienen importancia
+		//se pueden reutilizar
+		LDR R6, [R0,R4, LSL 2]
+		STR R6, [R1,R5, LSL 2]
+		ADD R5, #1
+	res_distinto:
+		ADD R4,#1					@ R4 = R4 + 1, increment the count
+		CMP R4,R2					@
+		BNE loop_downsampleM		@ branch if compare not equal
+	done_downsampleM:
+		POP {R7}
+		POP {R6}
 		POP {R5}
 		POP {R4}
 	    BX LR

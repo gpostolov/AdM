@@ -21,8 +21,8 @@
 #define  EJERCICIO_5 0
 #define  EJERCICIO_6 0
 #define  EJERCICIO_7 0
-#define  EJERCICIO_8 0
-#define  EJERCICIO_9 1
+#define  EJERCICIO_8 1
+#define  EJERCICIO_9 0
 
 //Ejercicio 1
 //Realizar una función que inicialice un vector con ceros.

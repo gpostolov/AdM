@@ -274,9 +274,12 @@ int main(void)
 	//Recibe un vector de muestras signadas de 32 bits y lo decime
 	//descartando una cada N muestras.
 	//Ejercicio en C
-	int32_t vectorIn_8[] = {1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,100,100,100,0,0,0,0,5,5,5,5};
+	int32_t vectorIn_8[] = {1,0,0,2,0,0,3,0,0,4,0,0,5,0,0,6,0,0,7,0,0,8,0,0,9,0,0,10,0,0,11};
 	int32_t vectorOut_8[] = {0,0,0,0,0,0,0,0,0,0 , 0,0,0,0,0,0,0,0,0,0  , 0,0,0,0,0,0,0,0,0,0};
+	int32_t vectorOut_8_asm[] = {0,0,0,0,0,0,0,0,0,0 , 0,0,0,0,0,0,0,0,0,0  , 0,0,0,0,0,0,0,0,0,0};
 	downsampleM (vectorIn_8, vectorOut_8, (sizeof(vectorIn_8)/sizeof(vectorIn_8[0])), 3);
+	//Ejercicio en Assembly
+	asm_downsampleM (vectorIn_8, vectorOut_8_asm, (sizeof(vectorIn_8)/sizeof(vectorIn_8[0])), 3);
   #endif
 
   #if (EJERCICIO_9 == 1)

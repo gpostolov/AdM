@@ -13,17 +13,17 @@
 
 #include "stm32f4xx_hal.h"
 
-#define  EJERCICIO_0 0
-#define  EJERCICIO_1 0
-#define  EJERCICIO_2 0
-#define  EJERCICIO_3 0
-#define  EJERCICIO_4 0
-#define  EJERCICIO_5 0
-#define  EJERCICIO_6 0
-#define  EJERCICIO_7 0
-#define  EJERCICIO_8 0
-#define  EJERCICIO_9 0
-#define  EJERCICIO_11 1
+#define  EJERCICIO_0	0
+#define  EJERCICIO_1	0
+#define  EJERCICIO_2	0
+#define  EJERCICIO_3	0
+#define  EJERCICIO_4	0
+#define  EJERCICIO_5	0
+#define  EJERCICIO_6	0
+#define  EJERCICIO_7	0
+#define  EJERCICIO_8	0
+#define  EJERCICIO_9	0
+#define  EJERCICIO_11	1
 
 //Ejercicio 1
 //Realizar una función que inicialice un vector con ceros.

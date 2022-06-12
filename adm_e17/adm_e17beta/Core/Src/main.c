@@ -303,6 +303,9 @@ int main(void)
 	int16_t vectorY[] = {4,5,6};
 	int16_t vectorCorr[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	corr (vectorX, vectorY, vectorCorr, (sizeof(vectorX)/sizeof(vectorX[0])));
+	//Ejercicio en Assembly
+	int16_t vectorCorr_asm[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	asm_corr (vectorX, vectorY, vectorCorr_asm, (sizeof(vectorX)/sizeof(vectorX[0])));
   #endif
 
   /* USER CODE END 2 */

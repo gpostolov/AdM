@@ -18,11 +18,12 @@
 #define  EJERCICIO_2 0
 #define  EJERCICIO_3 0
 #define  EJERCICIO_4 0
-#define  EJERCICIO_5 1
+#define  EJERCICIO_5 0
 #define  EJERCICIO_6 0
 #define  EJERCICIO_7 0
 #define  EJERCICIO_8 0
 #define  EJERCICIO_9 0
+#define  EJERCICIO_11 1
 
 //Ejercicio 1
 //Realizar una función que inicialice un vector con ceros.
@@ -62,6 +63,10 @@ void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, ui
 
 //Ejercicio 9
 //Recibe un vector de muestras no signadas de 16 bits e invierte su orden.
-void invertir (uint16_t * vector, uint32_t longitud);
+void invertir (int16_t * vector, uint32_t longitud);
+
+//Ejercicio 11
+//Calcula la correlación entre dos vectores.
+void corr (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud);
 
 #endif /* INC_EJERCICIOS_H_ */

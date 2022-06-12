@@ -113,7 +113,7 @@ void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, ui
 
 //Ejercicio 9
 //Recibe un vector de muestras no signadas de 16 bits e invierte su orden.
-void invertir (uint16_t * vector, uint32_t longitud){
+void invertir (int16_t * vector, uint32_t longitud){
 	uint32_t i = 0;
 	uint16_t swap_aux = 0;
 
@@ -122,5 +122,25 @@ void invertir (uint16_t * vector, uint32_t longitud){
 		swap_aux = vector [longitud - 1 -i];
 		vector[longitud - 1 -i] = vector[i];
 		vector[i] = swap_aux;
+	}
+}
+
+//Ejercicio 11
+//Calcula la correlación entre dos vectores.
+void corr (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud){
+	//Asumo que VectorX, VectorY tienen la misma longitud
+	uint32_t K = 0; //Para ver el valor en el debugging
+	int32_t i = 0;
+	int32_t j = 0;
+	int32_t aux_corr = 0;
+	K = (longitud*2)-1;
+	for (i = 0; i < K; i++){								//indice de vectorCorr
+		aux_corr = 0;
+		for (j = 0; j < longitud; j++){ 					//indice de la sumatoria
+			if (((i-j) >=0) && ((i-j)<longitud)){
+				aux_corr = aux_corr + vectorX[j]*vectorY[i-j];
+			}
+		}
+		vectorCorr[i] = aux_corr;
 	}
 }

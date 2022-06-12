@@ -7,3 +7,4 @@
 ../Core/Src/ejercicios.c:83:9:max	24	static
 ../Core/Src/ejercicios.c:101:6:downsampleM	32	static
 ../Core/Src/ejercicios.c:116:6:invertir	24	static
+../Core/Src/ejercicios.c:130:6:corr	40	static

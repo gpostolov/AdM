@@ -295,6 +295,15 @@ int main(void)
 	asm_invertir (vectorIn_9, (sizeof(vectorIn_9)/sizeof(vectorIn_9[0])));
   #endif
 
+  #if (EJERCICIO_11 == 1)
+	//Ejercicio 11
+	//Calcula la correlación entre dos vectores.
+	//Ejercicio en C
+	int16_t vectorX[] = {1,2,3};
+	int16_t vectorY[] = {4,5,6};
+	int16_t vectorCorr[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	corr (vectorX, vectorY, vectorCorr, (sizeof(vectorX)/sizeof(vectorX[0])));
+  #endif
 
   /* USER CODE END 2 */
 

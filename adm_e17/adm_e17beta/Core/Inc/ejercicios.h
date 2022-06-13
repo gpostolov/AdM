@@ -68,5 +68,5 @@ void invertir (int16_t * vector, uint32_t longitud);
 //Ejercicio 11
 //Calcula la correlación entre dos vectores.
 void corr (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud);
-
+void corr_bis (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud);
 #endif /* INC_EJERCICIOS_H_ */

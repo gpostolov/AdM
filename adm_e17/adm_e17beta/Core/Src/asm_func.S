@@ -16,6 +16,8 @@
 .global asm_downsampleM
 .global asm_invertir
 .global asm_corr
+.global asm_corr_bis
+.global asm_corr_SIMD
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -583,8 +585,188 @@
 	done_suma:
 		ADD R5,#1					@ R5 = R5 + 1, increment the count
 		CMP R5,R4					@ i == K, end
-		BNE loop_corr				@ branch if compare not equal
+	BNE loop_corr					@ branch if compare not equal
 	done_corr:
+		POP {R11}
+		POP {R10}
+		POP {R9}
+		POP {R8}
+		POP {R7}
+		POP {R6}
+		POP {R5}
+		POP {R4}
+	    BX LR
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 11 bis, nueva implementacion para poder usar SIMD en Assembly
+@ Calcula la correlación entre dos vectores
+@ void corr_bis (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud){
+@ 	uint32_t K = 0; //Para ver el valor en el debugging
+@ 	int32_t i = 0;
+@ 	int32_t j = 0;
+@ 	int32_t aux_corr = 0;
+@ 	K = (longitud*2)-1;
+@ 	for(i=0;i<K;i++){
+@ 		aux_corr = 0;
+@ 		for(j=0;j<longitud;j++){
+@ 			aux_corr = aux_corr + vectorX[j]*vectorY[K-1+j-i];
+@ 		}
+@ 		vectorCorr[i] = aux_corr;
+@ 	}
+@ }
+@
+@ Prototipo en "C":
+@ void asm_corr_bis (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud)
+@ Parametros recibidos:
+@   r0: vectorX,     puntero a vector 16btis
+@   r1: vectorY,  	 puntero a vector 16btis
+@   r2: vectorCorr,  puntero a vector 16btis
+@   r3: longitud
+@
+@ Valor de retorno:
+@   void
+@
+.thumb_func
+@   r4: K
+@   r5: i
+@   r6: j
+@   r7: aux_corr
+@   r8: K-1+j-i
+@   r9: aux1  , vectorX_val
+@   r10: aux2 , vectorY_val
+@   r11: aux3
+	asm_corr_bis:
+		PUSH {R4}
+		PUSH {R5}
+		PUSH {R6}
+		PUSH {R7}
+		PUSH {R8}
+		PUSH {R9}
+		PUSH {R10}
+		PUSH {R11}
+@		MOV R4, #0		@nhf
+		MOV R5, #0
+@		MOV R6, #0		@nhf
+@		MOV R7, #0		@nhf
+@		MOV R8, #0		@nhf
+@		MOV R9, #0		@nhf
+@		MOV R10, #0		@nhf
+		CMP R3,#0					@ compare to 0 and set Z register
+		BEQ done_corr_bis			@ branch if compare zero
+		MOV R4, R3, LSL 1			@ R4 = R3*2
+		SUBS R4, #1					@ K = (longitud*2)-1;
+	loop_corr_bis:
+		MOV R6, #0					@ j =0 ;
+		MOV R7, #0					@ aux_corr = 0;
+		SUBS R8,R4,R5               @ [K-1+j-i]
+		SUBS R8,#1                  @ [K-1+j-i]
+	loop_suma_bis:
+		LDRH R9, [R0, R6, LSL 1]	@ R9 = vectorX[j]
+		LDRH R10, [R1, R8, LSL 1]	@ R10 = vectorY[K-1+j-i]
+		MUL R11, R9, R10
+		ADD R7, R11
+		ADD R6, #1
+		ADD R8, #1					@ +j@[K-1+j-i]
+		CMP R6, R3
+		BNE loop_suma_bis
+		STRH R7,  [R2, R5, LSL 1]	@ vectorCorr[i] = aux_corr;
+	done_suma_bis:
+		ADD R5, #1					@ R5 = R5 + 1, increment the count
+		CMP R5, R4					@ i == K, end
+		BNE loop_corr_bis			@ branch if compare not equal
+	done_corr_bis:
+		POP {R11}
+		POP {R10}
+		POP {R9}
+		POP {R8}
+		POP {R7}
+		POP {R6}
+		POP {R5}
+		POP {R4}
+	    BX LR
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Ejercicio 11 bis, nueva implementacion para poder usar SIMD en Assembly
+@ Calcula la correlación entre dos vectores
+@ void corr_bis (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud){
+@ 	uint32_t K = 0; //Para ver el valor en el debugging
+@ 	int32_t i = 0;
+@ 	int32_t j = 0;
+@ 	int32_t aux_corr = 0;
+@ 	K = (longitud*2)-1;
+@ 	for(i=0;i<K;i++){
+@ 		aux_corr = 0;
+@ 		for(j=0;j<longitud;j++){
+@ 			aux_corr = aux_corr + vectorX[j]*vectorY[K-1+j-i];
+@ 		}
+@ 		vectorCorr[i] = aux_corr;
+@ 	}
+@ }
+@
+@ Prototipo en "C":
+@ void asm_corr_SIMD (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud)
+@ Parametros recibidos:
+@   r0: vectorX,     puntero a vector 16btis
+@   r1: vectorY,  	 puntero a vector 16btis
+@   r2: vectorCorr,  puntero a vector 16btis
+@   r3: longitud
+@
+@ Valor de retorno:
+@   void
+@
+.thumb_func
+@   r4: K
+@   r5: i
+@   r6: j
+@   r7: aux_corr
+@   r8: K-1+j-i
+@   r9: aux1  , vectorX_val
+@   r10: aux2 , vectorY_val
+@   r11: aux3
+	asm_corr_SIMD:
+		PUSH {R4}
+		PUSH {R5}
+		PUSH {R6}
+		PUSH {R7}
+		PUSH {R8}
+		PUSH {R9}
+		PUSH {R10}
+		PUSH {R11}
+@		MOV R4, #0		@nhf
+		MOV R5, #0
+@		MOV R6, #0		@nhf
+@		MOV R7, #0		@nhf
+@		MOV R8, #0		@nhf
+@		MOV R9, #0		@nhf
+@		MOV R10, #0		@nhf
+		CMP R3,#0					@ compare to 0 and set Z register
+		BEQ done_corr_SIMD			@ branch if compare zero
+		MOV R4, R3, LSL 1			@ R4 = R3*2
+		SUBS R4, #1					@ K = (longitud*2)-1;
+		ASR R3,1					@ R3/2
+	loop_corr_SIMD:
+		MOV R6, #0					@ j =0 ;
+		MOV R7, #0					@ aux_corr = 0;
+		SUBS R8,R4,R5               @ [K-1+j-i]
+		SUBS R8,#1                  @ [K-1+j-i]
+		ASR R8,1
+	loop_suma_SIMD:
+		LDR R9, [R0, R6, LSL  2]	@ R9 = vectorX[j]
+		LDR R10, [R1, R8, LSL 2]	@ R10 = vectorY[K-1+j-i]
+		SMUAD R11, R9, R10
+		ADD R7, R11
+		ADD R6, #1
+		ADD R8, #1					@ +j@[K-1+j-i]
+		CMP R6, R3
+		BNE loop_suma_SIMD
+		STRH R7,  [R2, R5, LSL 1]	@ vectorCorr[i] = aux_corr;
+	done_suma_SIMD:
+		ADD R5, #1					@ R5 = R5 + 1, increment the count
+		CMP R5, R4					@ i == K, end
+		BNE loop_corr_SIMD			@ branch if compare not equal
+	done_corr_SIMD:
 		POP {R11}
 		POP {R10}
 		POP {R9}

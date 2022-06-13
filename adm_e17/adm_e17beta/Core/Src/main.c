@@ -298,14 +298,45 @@ int main(void)
   #if (EJERCICIO_11 == 1)
 	//Ejercicio 11
 	//Calcula la correlación entre dos vectores.
+
+	int16_t vectorX[] = {1,2,3,4,5,6,7,8};
+	int16_t vectorY[] = {1,2,3,4,1,2,3,4};
+
+	uint32_t longitud = (sizeof(vectorX)/sizeof(vectorX[0]));
+
 	//Ejercicio en C
-	int16_t vectorX[] = {1,2,3};
-	int16_t vectorY[] = {4,5,6};
 	int16_t vectorCorr[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	corr (vectorX, vectorY, vectorCorr, (sizeof(vectorX)/sizeof(vectorX[0])));
+	corr (vectorX, vectorY, vectorCorr, longitud);
 	//Ejercicio en Assembly
 	int16_t vectorCorr_asm[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	asm_corr (vectorX, vectorY, vectorCorr_asm, (sizeof(vectorX)/sizeof(vectorX[0])));
+	asm_corr (vectorX, vectorY, vectorCorr_asm, longitud);
+	//Se me complico su version con SIMD en Assembly
+	/*****************************/
+	/*****************************/
+
+	//Nueva version, con preproceso, por ahora solo longitud PAR!!!!!
+	int16_t vectorY_inv[] = {1,2,3,4,1,2,3,4};
+	//Asumo que VectorX, VectorY tienen la misma longitud
+	//Creo un nuevo vector de (3N - 2) con la señal Y dada vuelta, centrada y completada con ceros
+	int16_t vectorY_acon[3*longitud-2];
+	zeros (vectorY_acon, 3*longitud-2);
+	invertir (vectorY_inv, longitud);
+	//Acondiciono
+	for (uint32_t i=0; i<longitud;i++){
+		vectorY_acon[i+longitud-1] = vectorY_inv[i];
+	}
+
+	//Ejercicio bis en C
+	int16_t vectorCorr_bis[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	corr_bis (vectorX, vectorY_acon, vectorCorr_bis, longitud);
+
+	//Ejercicio bis en Assembly
+	int16_t vectorCorr_bis_asm[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	asm_corr_bis (vectorX, vectorY_acon, vectorCorr_bis_asm, longitud);
+
+	//Ejercicio bis en Assembly con SIMD
+	int16_t vectorCorr_bis_SIMD[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	asm_corr_SIMD (vectorX, vectorY_acon, vectorCorr_bis_SIMD, longitud);
   #endif
 
   /* USER CODE END 2 */

@@ -144,3 +144,39 @@ void corr (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t lon
 		vectorCorr[i] = aux_corr;
 	}
 }
+
+//Ejercicio 11 bis, nueva implementacion para poder usar SIMD en Assembly
+//Calcula la correlación entre dos vectores
+void corr_bis (int16_t *vectorX, int16_t *vectorY, int16_t *vectorCorr, uint32_t longitud){
+	uint32_t K = 0; //Para ver el valor en el debugging
+	int32_t i = 0;
+	int32_t j = 0;
+	int32_t aux_corr = 0;
+	K = (longitud*2)-1;
+	for(i=0;i<K;i++){
+		aux_corr = 0;
+		for(j=0;j<longitud;j++){
+			aux_corr = aux_corr + vectorX[j]*vectorY[K-1+j-i];
+		}
+		vectorCorr[i] = aux_corr;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
